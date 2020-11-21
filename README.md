@@ -24,7 +24,7 @@ if __name__ == '__main__':
     sim1.draw_graph(resource_goal, (min_villager, max_villager))
 ```
 
-2\)  ```complex_sim()``` is the version where building house,  building farm requires wood is considered, where ```simple_sim()``` does not need to build house, and gathering food does not depend on wood. In both versions, the only parameter we need to set is ```num_villager```.
+2\)  ```complex_sim()``` is the version where houses must to be built to accommodate current population,  also for every food gathered, we will automatically deduct some wood (which we try to make it proportional to the cost of farm). On the other hand,  ```simple_sim()``` does not need to build house, and gathering food have no effects on wood. In both versions, the only parameter we need to set is ```num_villager```. The *Town Center* will keep trying to train villagers until the number is equal to the parameter ```n_villager```.
 
 ```python
 # single_towncenter simulation
@@ -36,7 +36,7 @@ for n_villager in range(5, 30):
 
 ```
 
-3\) You can change the detail level of output information in function ```summary_print```
+3\) You can change the detail level of output information in function ```summary_print```.
 ```python
 def summary_print(self, cur_time):
     print("--------------------")
