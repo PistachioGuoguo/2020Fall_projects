@@ -11,7 +11,7 @@ For more information of this project, please see [my deck at Goold Drive](https:
 
 ## Usage
 
-1\) Draw statitical graph for the time of setting different numbers of villagers to complete a specific resource goal:
+1\) Draw statistical graph for the time of setting different numbers of villagers to complete a specific resource goal:
 
 ```python
 if __name__ == '__main__':
