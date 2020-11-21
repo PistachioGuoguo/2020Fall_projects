@@ -37,3 +37,12 @@ class StoneMiner(Villager):
         super().__init__(init_time)
         self.resource_type= 'stone'
         self.work_interval = 27
+
+
+class Builder(Villager):
+    def __init__(self, init_time, building):
+        super().__init__(init_time)
+        self.resource_type = None
+        self.building_type = building
+        if building == 'house':
+            self.work_interval = 25
