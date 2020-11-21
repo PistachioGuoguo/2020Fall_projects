@@ -1,6 +1,3 @@
-from collections import deque
-import random as rd
-import numpy as np
 from villager import Farmer, Lumberjack, GoldMiner, StoneMiner, Builder
 from queue import PriorityQueue
 from copy import deepcopy
