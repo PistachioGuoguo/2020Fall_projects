@@ -79,7 +79,7 @@ This program modeled a simple version of *AoE II* with following hypothesis:
 
 ## Acknowledgments
 
-Big thanks to [Mr.Weible](https://ischool.illinois.edu/people/john-weible) for his fun, enlightening course as well as the great freedom he gave us in exploring topics we are really interested!
+Big thanks to [Mr.Weible](https://ischool.illinois.edu/people/john-weible) for his fun, enlightening course as well as the great freedom he gave us in exploring topics that we are really interested in!
 
 
 
