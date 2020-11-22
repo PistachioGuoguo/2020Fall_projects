@@ -24,15 +24,15 @@ if __name__ == '__main__':
     sim1.draw_graph(resource_goal, (min_villager, max_villager))
 ```
 
-2\)  ```complex_sim()``` is the version where houses must to be built to accommodate current population,  also for every food gathered, we will automatically deduct some wood (which we try to make it proportional to the cost of farm). On the other hand,  ```simple_sim()``` does not need to build house, and gathering food have no effects on wood. In both versions, the only parameter we need to set is ```num_villager```. The *Town Center* will keep trying to train villagers until the number is equal to the parameter ```n_villager```.
+2\)  ```complex_sim()``` is the version where houses must to be built to accommodate current population,  also for every food gathered, we will automatically deduct some wood (which we try to make it proportional to the cost of farm). On the other hand,  ```simple_sim()``` does not need to build house, and gathering food have no effects on wood. In both versions, the only parameter we need to set is ```num_villager```. The *Town Center* will keep trying to train villagers until the number is equal to the parameter ```num_villager```.
 
 ```python
 # single_towncenter simulation
 for n_villager in range(5, 30):
     sim1 = AoeSimulator(run_time)
     sim1.set_resource_goal({'food':500})
-    # sim1.simple_sim(n_villager)
-    sim1.complex_sim(n_villager)
+    # sim1.simple_sim(num_villager)
+    sim1.complex_sim(num_villager)
 
 ```
 
