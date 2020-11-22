@@ -2,12 +2,14 @@
 
 Author: Zizhou Sang ([zsang2@illinois.edu](mailto:zsang2@illinois.edu))
 
+Presentation slides: [Google Drive link](https://drive.google.com/file/d/1vWRWCLP4rZqXWW97KSKySzxAEAmWBfZi/view?usp=sharing)
+
 
 ## Introduction
 
 *Age of Empires 2* is a classic real-time strategy game developed by Ensemble Studios as early in 1998. Since childhood, I have been wondering what villager allocation strategy can provide sufficient resources for any requirements in shortest time.
 
-For more information of this project, please see [my deck at Goold Drive](https://drive.google.com/file/d/1vWRWCLP4rZqXWW97KSKySzxAEAmWBfZi/view?usp=sharing). Thanks!
+For more information of this project, please refer to my [slides](https://drive.google.com/file/d/1vWRWCLP4rZqXWW97KSKySzxAEAmWBfZi/view?usp=sharing), thanks.
 
 ## Usage
 
@@ -83,10 +85,9 @@ Big thanks to [Mr.Weible](https://ischool.illinois.edu/people/john-weible) for h
 
 
 
-
 ## Reference
 
-1. The data of villagers gathering resources, and training time, I referred to data from [Age of Empires 2 Fandom](https://ageofempires.fandom.com/wiki/Villager_\(Age_of_Empires_II\)).
+1. The data of villagers gathering resources, and training time, I referred to [Age of Empires 2 Fandom](https://ageofempires.fandom.com/wiki/Villager_\(Age_of_Empires_II\)).
 
 2. The idea of using a heap (priority queue) to accommodate and execute all the events one by one, is inspired by [Prof. Tim Roughgarden](http://timroughgarden.org/)'s [Algorithm Course](https://www.coursera.org/learn/algorithms-divide-conquer).
 
