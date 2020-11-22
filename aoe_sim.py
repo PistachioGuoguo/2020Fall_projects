@@ -3,31 +3,39 @@ from queue import PriorityQueue
 from copy import deepcopy
 import matplotlib.pyplot as plt
 
-# use an event_heap
+
+DEFAULT_RUNNING_TIME = 10000  # all time is based on seconds
+INITIAL_FOOD = INITIAL_WOOD = 200 # as per game start
+INITIAL_GOLD = 100
+INITIAL_STONE = 0
+INITIAL_ACCOMMO = ACCOMMO_PER_HOUSE = 5 # TownCenter can provide 5 accommodation at beginning
 
 VILLAGE_TRAINING_TIME = 25 # it takes 25 seconds to train a villager
 TRY_TRAIN_VILLAGER_INTERVAL = 10 # if not enough food to train villager now, try again after 10 seconds
+FOOD_COST_PER_VILLAGER = 50
+WOOD_COST_PER_HOUSE = 25
+WOOD_COST_PER_FARM = 60
+WOOD_COST_PER_ONE_UNIT_FOOD = 0.25
 
 class AoeSimulator:
-    def __init__(self, running_time = 10000):
+
+    def __init__(self, running_time = DEFAULT_RUNNING_TIME):
         self.running_time = running_time
-        self.resources = {'food': 200, 'wood': 200, 'gold':0, 'stone':0 }
+        self.resources = {'food': INITIAL_FOOD, 'wood': INITIAL_WOOD, 'gold':INITIAL_GOLD, 'stone':INITIAL_STONE }
         self.event_heap = None
 
-
-    def set_villager_sequence(self, vil_seq : list):
+    def set_villager_sequence(self, villager_sequence : list):
         """
-        :param vil_seq: a list of which types of villagers are trained
+        :param villager_sequence: a list of different work types of Villagers
         e.g [Forager(30), Forager(50), Forager(80), Lumberjack(110)]
         :return:
         """
-        self.villager_sequence = vil_seq
-
+        self.villager_sequence = villager_sequence
 
     def generate_event_heap(self, villager_sequence):
-        # convert the villager_production_sequence to a priority queue of events (like resource gathered)
-        # form: list of tuple (scheduled_time, resource_type, number)
-        # [(40,'food',10), (80,'wood',11), ...]
+        # convert the villager_sequence to a priority queue of events (like resource gathered)
+        # format: list of tuple (scheduled_time: int, resource_type(description) : str, amount: int)
+        # [(40,'food',10), (80,'wood',11), (100, 'try_train_villager', 0), ...]
         event_pq = PriorityQueue()
         if villager_sequence:
             for villager in villager_sequence:
@@ -49,8 +57,9 @@ class AoeSimulator:
         else:
             print('Please input a villager training sequence.')
 
-
     def process_event_pq(self, mode='fixed_time'):
+        # this function is used when testing, and describes the fundamental structure of core function
+        # later we expanded different types of events such as 'train_villager', 'build_house' based on this framework
         # interpret each item in event_pq
         # event form: [(40,'food',10), (80,'wood',11), ...]
         shortest_time = True if mode == 'shortest_time' else False
@@ -62,7 +71,6 @@ class AoeSimulator:
                 if self.met_resource_goal():
                     return event[0] # return the time of current event as end time
 
-
     def set_resource_goal(self, goal_dict : dict):
         # input the requirement for each kind of resource
         self.resource_goal = goal_dict
@@ -70,71 +78,67 @@ class AoeSimulator:
             if key not in goal_dict.keys():
                 self.resource_goal[key] = 0
 
-
     def met_resource_goal(self):
-        # bool function, checking whether current resource have met the goal
+        # boolean function, checking whether current resource have met the goal
         for key in self.resources.keys():
             if self.resources[key] < self.resource_goal[key]: # if any type of resource not met the goal, return False
                 return False
         return True
 
-
     def run(self, mode='fixed_time'):
-        # this a simple mode for test,
-        # suits when a complete villager list is fed
-        # and no more future add or change of events
+        # this a simple mode for execution during test
+        # works when a complete villager list is fed, and does not support adding or changing events in future
         self.event_heap = self.generate_event_heap(self.villager_sequence)
-        if mode == 'fixed_time':
+        if mode == 'fixed_time': # "fixed-time" mode, will run until the end of event_sequence
             self.process_event_pq() # default mode is fixed_time
             print(self.resources)
-        elif mode == 'shortest_time':
+        elif mode == 'shortest_time': # "shortest_time" mode, will break when the resource goal is met
             end_time = self.process_event_pq(mode)
             print(self.resources)
             print("Goal achieved in %d sec." % end_time)
 
-
     # above is simple version which uses predefined event_heap
-    # this is a single towncenter without the trivias of building house, farm exhaustion, etc
-    def simple_sim(self, n_villager=10):
+    # this is a model of single Town Center without the trivia of building house, farm exhaustion, etc
+    def simple_sim(self, num_villager):
         """
-        Dynamically training villager, add to production sequence
+        Dynamically training villager and add to production sequence
         n_villager:  total number of villagers planned to train
         :return:
         """
         init_villagers = [Farmer(0), Farmer(0), Farmer(0)] # each game start with 3 villagers, set them all to farming
-        self.labor_division = {'food': 3, 'wood': 0, 'gold': 0, 'stone': 0 } # use a dict to keep track of number of villager in each track
-        self.resource_needed = self.resource_goal# temporarily, the needed is goal, but soon needed is greater than goal
-        # because, e.g, it takes wood to build farm, though wood may not be needed in final goal
+        self.labor_division = {'food': 3, 'wood': 0, 'gold': 0, 'stone': 0 }  # use a dict to keep track of number of villager in each track
+        self.resource_needed = self.resource_goal # in this version, resource_needed is just resource_goal
         self.event_heap = self.generate_event_heap(init_villagers) # generate event heap for first 3 villagers
         self.event_heap.put((0, 'try_train_villager', 0)) # always start training a villager at beginning
-        # event form in event_heap : (time, event_descrpition, amount)
+        # event form in event_heap : (time, event_description, amount)
 
         while not self.event_heap.empty(): # main event loop
             event = self.event_heap.get()
-            if event[1] in self.resources.keys(): # if this event related to gathering resouces
-                self.resources[event[1]] += event[2]
+            event_time, event_desc, event_amount = event  # rename for easier read : time , description and amount
+
+            if event_desc in self.resources.keys(): # if this event related to gathering resources
+                self.resources[event_desc] += event_amount
                 if self.met_resource_goal(): # if reached the goal,  return the time of current event as end time
-                    self.summary_print(event[0]) # event[0] is current time
+                    self.summary_print(event_time)
                     break
-            elif event[1] == 'try_train_villager': # if this is a villager training event
-                if self.resources['food'] >= 50 :
-                    self.resources['food'] -= 50 # deduct 50 food to start training
-                    self.event_heap.put((event[0] + VILLAGE_TRAINING_TIME, 'villager_trained', 0))
+            elif event_desc == 'try_train_villager': # if this is a villager training event
+                if self.resources['food'] >= FOOD_COST_PER_VILLAGER :
+                    self.resources['food'] -= FOOD_COST_PER_VILLAGER # deduct 50 food to start training
+                    self.event_heap.put((event_time + VILLAGE_TRAINING_TIME, 'villager_trained', 0))
                     # after VILLAGER_TRAINING_TIME, a new villager will be produced
                 else: # not enough food, wait TRY_AGAIN_VILLAGER_INTERVAL and try again
-                    self.event_heap.put((event[0] + TRY_TRAIN_VILLAGER_INTERVAL, 'try_train_villager', 0))
-            elif event[1] == 'villager_trained': # a new villager is trained now, assign him/her to a job
-                self.clever_assign_new_villager(event[0]) # automatically decide new villager's task, generate its flow, and add to main event_heap
-                if sum(self.labor_division.values()) < n_villager: # if current total villagers is less than planned
-                    self.event_heap.put((event[0], 'try_train_villager', 0)) # try training new villager
-
-
+                    self.event_heap.put((event_time + TRY_TRAIN_VILLAGER_INTERVAL, 'try_train_villager', 0))
+            elif event_desc == 'villager_trained': # a new villager is trained now, assign him/her to a job
+                self.clever_assign_new_villager(event_time) # automatically decide new villager's task, generate its flow, and add to main event_heap
+                if sum(self.labor_division.values()) < num_villager: # if current total villagers is less than planned
+                    self.event_heap.put((event_time, 'try_train_villager', 0)) # try training new villager
 
 
     def clever_assign_new_villager(self, cur_time, consider_housing=False):
-        # return Farmer. Lumberjack,
+
         # cleverly assign villager to the "most needed place", for example, if food now is relatively enough and
         # wood is in dire need, new villager will be assigned as Lumberjack
+        # consider_housing = True is used in complex_sim
 
         eval_dict = {} # used to evaluate which of the resources is in most need
 
@@ -151,7 +155,7 @@ class AoeSimulator:
                     eval_dict[key] = goal - current
 
         # get most needed type of resource, and create a new villager
-        most_needed_resource = max(eval_dict, key=eval_dict.get) # find the resource with largest evaluation score
+        most_needed_resource = max(eval_dict, key=eval_dict.get) # find the resource type with largest evaluation score
 
         new_villager_dict = {'food': Farmer(cur_time), 'wood':Lumberjack(cur_time), 'gold':GoldMiner(cur_time), 'stone':StoneMiner(cur_time)}
 
@@ -164,14 +168,11 @@ class AoeSimulator:
             if self.num_accommodation - cur_population == 2 and cur_population >= 8:
                 # cur_population >= 8 means not right beginning of game, where we already manually assigned a villager to build house
                 temp_event_heap = self.generate_event_heap([Builder(cur_time, 'house')]) # housing if No.1 priority
-                self.resources['wood'] -= 25 # takes 25 wood to build a house
+                self.resources['wood'] -= WOOD_COST_PER_HOUSE # takes 25 wood to build a house
             else: # stick to original allocation
-
                 self.labor_division[most_needed_resource] += 1
                 self.resource_needed['wood'] = self.resource_goal['wood'] + self.calc_wood_overhead()  # increase demand for wood
-
         else:
-
             self.labor_division[most_needed_resource] += 1
         # pour from temp event heap to main event heap
 
@@ -183,74 +184,73 @@ class AoeSimulator:
         # print("A new villager is assigned to %s at time %d" % (most_needed_resource, cur_time))
 
     def calc_wood_overhead(self):
-        return self.labor_division['food'] * 60 + 200 # each farm takes 60 wood, and set 200 for other buildings
+        # self-define the wood overhead, since building farm requires wood, we'll later combine this with resource_goal to resource_needed
+        return self.labor_division['food'] * WOOD_COST_PER_FARM + 200 # each farm takes 60 wood (one farmer works on one farm), and set 200 for other buildings
 
-
-    def complex_sim(self, n_villager, return_value=False):
+    def complex_sim(self, num_villager, return_value=False):
         """
-        This version added the requirement of house for population, also the farm will exhaust
+        This version added the requirement of house for population
+        also the farm will exhaust "continuously" (automatically deduct 2.5 unit of wood for every 10 unit of food collected)
         Dynamically training villager, add to production sequence
-        n_villager:  total number of villagers planned to train
-        :return:
+        num_villager:  total number of villagers planned to train
         """
-        self.num_accommodation = 5 # a town center can accommodate 5 people
+        self.num_accommodation = INITIAL_ACCOMMO # initiallty a town center can accommodate 5 people
         init_villagers = [Farmer(0), Farmer(0), Builder(0, 'house')] # each game start with 3 villagers, set them all to farming
-        self.resources['wood'] -= 25 # cost for build house at the beginning
+        self.resources['wood'] -= WOOD_COST_PER_HOUSE # cost for build house at the beginning
         self.labor_division = {'food': 3, 'wood': 0, 'gold': 0, 'stone': 0} # use a dict to keep track of number of villager in each track
         self.resource_needed = deepcopy(self.resource_goal) # temporarily, the needed is goal, but soon needed is >> goal
         # because, e.g, it takes wood to build farm, though wood may not be needed in final goal
         self.event_heap = self.generate_event_heap(init_villagers) # generate event heap for first 3 villagers
         self.event_heap.put((0, 'try_train_villager', 0)) # always start training a villager at beginning
-        # event form in event_heap : (time, event_descrpition, amount)
+        # event form in event_heap : (time, event_description, amount)
 
         while not self.event_heap.empty(): # main event loop
             event = self.event_heap.get()
-            # print(event)
-            if event[1] in self.resources.keys(): # if this event related to gathering resouces
-                self.resources[event[1]] += event[2]
-                if event[1] == 'food':
-                    self.resources['wood'] -= 0.25 * event[2] # let's suppose farm takes 1 wood for 4 food
+            event_time, event_desc, event_amount = event  # rename for easier read : time , description and amount
+            if event_desc in self.resources.keys(): # if this event related to gathering resouces
+                self.resources[event_desc] += event_amount
+                if event_desc == 'food':
+                    self.resources['wood'] -= WOOD_COST_PER_ONE_UNIT_FOOD * event_amount # let's suppose farm takes 1 wood for 4 food
                 if self.met_resource_goal(): # if reached the goal,  return the time of current event as end time
-                    self.summary_print(event[0]) # event[0] is current time
+                    self.summary_print(event_time) # event[0] is current time
                     if return_value:
-                        return event[0]
+                        return event_time
                     break
-
-
-            elif event[1] == 'try_train_villager': # if this is a villager training event
-                if self.resources['food'] >= 50 :
-                    self.resources['food'] -= 50 # deduct 50 food to start training
-                    self.event_heap.put((event[0] + VILLAGE_TRAINING_TIME, 'villager_trained', 0))
+            elif event_desc == 'try_train_villager': # if this is a villager training event
+                if self.resources['food'] >= FOOD_COST_PER_VILLAGER :
+                    self.resources['food'] -= FOOD_COST_PER_VILLAGER # deduct 50 food to start training
+                    self.event_heap.put((event_time + VILLAGE_TRAINING_TIME, 'villager_trained', 0))
                     # after VILLAGER_TRAINING_TIME, a new villager will be produced
                 else: # not enough food, wait TRY_AGAIN_VILLAGER_INTERVAL and try again
-                    self.event_heap.put((event[0] + TRY_TRAIN_VILLAGER_INTERVAL, 'try_train_villager', 0))
-            elif event[1] == 'villager_trained': # a new villager is trained now, assign him/her to a job
-                self.clever_assign_new_villager(event[0], consider_housing=True) # automatically decide new villager's task, generate its flow, and add to main event_heap
-                if sum(self.labor_division.values()) < n_villager: # if current total villagers is less than planned
-                    self.event_heap.put((event[0], 'try_train_villager', 0)) # try training new villager
-            elif event[1] == 'house_completed': # indicate a house is done
-                self.num_accommodation += 5 # a house provide 5 accommodation
-                self.clever_assign_new_villager(event[0], consider_housing=True)
+                    self.event_heap.put((event_time + TRY_TRAIN_VILLAGER_INTERVAL, 'try_train_villager', 0))
+            elif event_desc == 'villager_trained': # a new villager is trained now, assign him/her to a job
+                self.clever_assign_new_villager(event_time, consider_housing=True) # automatically decide new villager's task, generate its flow, and add to main event_heap
+                if sum(self.labor_division.values()) < num_villager: # if current total villagers is less than planned
+                    self.event_heap.put((event_time, 'try_train_villager', 0)) # try training new villager
+            elif event_desc == 'house_completed': # indicate a house is done
+                self.num_accommodation += ACCOMMO_PER_HOUSE # a house provide 5 accommodation
+                self.clever_assign_new_villager(event_time, consider_housing=True)
 
 
-    def summary_print(self, cur_time):
+    def summary_print(self, current_time):
+        # You can customize the level of detail of the information you want here
         print("--------------------")
-        print(self.resources)
+        print(self.resources) # print all resources gathered so far
         print("The labor divison: ", end='')
-        print(self.labor_division)
-        print("Goal achieved in %d sec." % cur_time)
+        print(self.labor_division) # print the allocation of villager to each resources
+        print("Goal achieved in %d sec." % current_time)
 
 
     def draw_graph(self, resource_goal, num_villager_range: tuple = (5,30)):
-        # generate graph for completion time versus the number of villagers
-        def generate_title():
+        # generate statistical graph for completion time versus the number of villagers
+
+        def generate_graph_title(): # generate title for the graph
             begin = 'The time of generating '
             temp_list = []
             for key in resource_goal:
                 if resource_goal[key] != 0:
                     temp_list.append( str(resource_goal[key]) + ' ' + key)
             return begin + ','.join(temp_list)
-
 
         low, high = num_villager_range
         time_list = []
@@ -260,7 +260,7 @@ class AoeSimulator:
             time_took = sim1.complex_sim(n_villager, return_value=True)
             time_list.append(time_took)
 
-        plt.title(generate_title())
+        plt.title(generate_graph_title())
         plt.xlabel('num_villager')
         plt.ylabel('time_spent')
         plt.plot(range(low, high + 1), time_list)
