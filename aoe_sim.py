@@ -2,24 +2,13 @@ from villager import Farmer, Lumberjack, GoldMiner, StoneMiner, Builder
 from queue import PriorityQueue
 from copy import deepcopy
 import matplotlib.pyplot as plt
+from constants import *
 
-
-DEFAULT_RUNNING_TIME = 10000  # all time is based on seconds
-INITIAL_FOOD = INITIAL_WOOD = 200 # as per game start
-INITIAL_GOLD = 100
-INITIAL_STONE = 0
-INITIAL_ACCOMMO = ACCOMMO_PER_HOUSE = 5 # TownCenter can provide 5 accommodation at beginning
-
-VILLAGE_TRAINING_TIME = 25 # it takes 25 seconds to train a villager
-TRY_TRAIN_VILLAGER_INTERVAL = 10 # if not enough food to train villager now, try again after 10 seconds
-FOOD_COST_PER_VILLAGER = 50
-WOOD_COST_PER_HOUSE = 25
-WOOD_COST_PER_FARM = 60
-WOOD_COST_PER_ONE_UNIT_FOOD = 0.25
 
 class AoeSimulator:
 
     def __init__(self, running_time = DEFAULT_RUNNING_TIME):
+
         self.running_time = running_time
         self.resources = {'food': INITIAL_FOOD, 'wood': INITIAL_WOOD, 'gold':INITIAL_GOLD, 'stone':INITIAL_STONE }
         self.event_heap = None
@@ -36,6 +25,21 @@ class AoeSimulator:
         # convert the villager_sequence to a priority queue of events (like resource gathered)
         # format: list of tuple (scheduled_time: int, resource_type(description) : str, amount: int)
         # [(40,'food',10), (80,'wood',11), (100, 'try_train_villager', 0), ...]
+        """
+
+        :param villager_sequence: takes the form [Forager(30), Forager(50), Forager(80), Lumberjack(110)]
+        :return: a priority queue of events (in form of tuples)
+        >>> a1 = AoeSimulator()
+        >>> event_heap = a1.generate_event_heap([Farmer(0)])
+        >>> event_heap.get()
+        (32, 'food', 10)
+        >>> event_heap.get()
+        (64, 'food', 10)
+        >>> event_heap.get()
+        (96, 'food', 10)
+        >>> event_heap.get()
+        (128, 'food', 10)
+        """
         event_pq = PriorityQueue()
         if villager_sequence:
             for villager in villager_sequence:
@@ -62,6 +66,18 @@ class AoeSimulator:
         # later we expanded different types of events such as 'train_villager', 'build_house' based on this framework
         # interpret each item in event_pq
         # event form: [(40,'food',10), (80,'wood',11), ...]
+        """
+        >>> a1 = AoeSimulator()
+        >>> a1.set_resource_goal({'food':500})
+        >>> a1.event_heap = a1.generate_event_heap([Farmer(0), Farmer(0), Farmer(0)])
+        >>> a1.process_event_pq(mode='shortest_time')
+        320
+        >>> a1.process_event_pq()
+
+        :param mode: fixed_time or shortest_time, fixed time run the full designated time and shortest_time will break if met resource goal
+        :return: fixed_time return None, shortest_time return int (finish_time),
+
+        """
         shortest_time = True if mode == 'shortest_time' else False
 
         while not self.event_heap.empty():
@@ -86,6 +102,21 @@ class AoeSimulator:
         return True
 
     def run(self, mode='fixed_time'):
+        """
+
+        :param mode:
+        :return:
+        >>> a1 = AoeSimulator()
+        >>> a1.set_resource_goal({'food':1000, 'gold':800})
+        >>> a1.set_villager_sequence([Farmer(0), Lumberjack(0), GoldMiner(0)])
+        >>> a1.run()
+        {'food': 3310, 'wood': 4190, 'gold': 3930, 'stone': 0}
+        >>> a1 = AoeSimulator()
+        >>> a1.set_resource_goal({'food':1000, 'gold':800})
+        >>> a1.set_villager_sequence([Farmer(0), Lumberjack(0), Farmer(0)])
+        >>> a1.run()
+        {'food': 6420, 'wood': 4190, 'gold': 100, 'stone': 0}
+        """
         # this a simple mode for execution during test
         # works when a complete villager list is fed, and does not support adding or changing events in future
         self.event_heap = self.generate_event_heap(self.villager_sequence)
@@ -104,6 +135,20 @@ class AoeSimulator:
         Dynamically training villager and add to production sequence
         n_villager:  total number of villagers planned to train
         :return:
+        >>> a1 = AoeSimulator()
+        >>> a1.set_resource_goal({'food':500})
+        >>> a1.simple_sim(3)
+        --------------------
+        {'food': 500, 'wood': 200, 'gold': 100, 'stone': 0}
+        The labor divison: {'food': 4, 'wood': 0, 'gold': 0, 'stone': 0}
+        Goal achieved in 288 sec.
+        >>> a2 = AoeSimulator()
+        >>> a2.set_resource_goal({'food':1000})
+        >>> a2.simple_sim(3)
+        --------------------
+        {'food': 1000, 'wood': 200, 'gold': 100, 'stone': 0}
+        The labor divison: {'food': 4, 'wood': 0, 'gold': 0, 'stone': 0}
+        Goal achieved in 704 sec.
         """
         init_villagers = [Farmer(0), Farmer(0), Farmer(0)] # each game start with 3 villagers, set them all to farming
         self.labor_division = {'food': 3, 'wood': 0, 'gold': 0, 'stone': 0 }  # use a dict to keep track of number of villager in each track
@@ -193,6 +238,30 @@ class AoeSimulator:
         also the farm will exhaust "continuously" (automatically deduct 2.5 unit of wood for every 10 unit of food collected)
         Dynamically training villager, add to production sequence
         num_villager:  total number of villagers planned to train
+        >>> a1 = AoeSimulator()
+        >>> a1.set_resource_goal({'food':1000, 'gold':800})
+        >>> a1.complex_sim(10)
+        --------------------
+        {'food': 1000, 'wood': 535.0, 'gold': 1140, 'stone': 0}
+        The labor divison: {'food': 5, 'wood': 2, 'gold': 3, 'stone': 0}
+        Goal achieved in 960 sec.
+
+        >>> a1 = AoeSimulator()
+        >>> a1.set_resource_goal({'food':1000, 'gold':800})
+        >>> a1.complex_sim(15)
+        --------------------
+        {'food': 1000, 'wood': 687.5, 'gold': 960, 'stone': 0}
+        The labor divison: {'food': 8, 'wood': 4, 'gold': 3, 'stone': 0}
+        Goal achieved in 800 sec.
+
+        >>> a1 = AoeSimulator()
+        >>> a1.set_resource_goal({'food':1000, 'gold':800})
+        >>> a1.complex_sim(20)
+        --------------------
+        {'food': 1000, 'wood': 810.0, 'gold': 930, 'stone': 0}
+        The labor divison: {'food': 11, 'wood': 6, 'gold': 3, 'stone': 0}
+        Goal achieved in 769 sec.
+
         """
         self.num_accommodation = INITIAL_ACCOMMO # initiallty a town center can accommodate 5 people
         init_villagers = [Farmer(0), Farmer(0), Builder(0, 'house')] # each game start with 3 villagers, set them all to farming

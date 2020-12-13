@@ -7,6 +7,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="362" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -34,29 +37,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="Python.aoe_sim">
-    <configuration name="aoe_sim" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="2020Fall_projects" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aoe_sim.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python tests.Doctest AoeSimulator.run">
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="2020Fall_projects" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -79,10 +60,89 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Doctest AoeSimulator.calc_wood_overhead" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="2020Fall_projects" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aoe_sim.py" />
+      <option name="CLASS_NAME" value="AoeSimulator" />
+      <option name="METHOD_NAME" value="calc_wood_overhead" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Doctest AoeSimulator.complex_sim" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="2020Fall_projects" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aoe_sim.py" />
+      <option name="CLASS_NAME" value="AoeSimulator" />
+      <option name="METHOD_NAME" value="complex_sim" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Doctest AoeSimulator.run" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="2020Fall_projects" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aoe_sim.py" />
+      <option name="CLASS_NAME" value="AoeSimulator" />
+      <option name="METHOD_NAME" value="run" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Doctest AoeSimulator.simple_sim" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="2020Fall_projects" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aoe_sim.py" />
+      <option name="CLASS_NAME" value="AoeSimulator" />
+      <option name="METHOD_NAME" value="simple_sim" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.aoe_sim" />
+        <item itemvalue="Python tests.Doctest AoeSimulator.run" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python tests.Doctest AoeSimulator.complex_sim" />
+        <item itemvalue="Python tests.Doctest AoeSimulator.calc_wood_overhead" />
+        <item itemvalue="Python tests.Doctest AoeSimulator.simple_sim" />
       </list>
     </recent_temporary>
   </component>
@@ -99,6 +159,8 @@
       <workItem from="1605711967718" duration="48516000" />
       <workItem from="1605972052367" duration="17529000" />
       <workItem from="1606006182656" duration="250000" />
+      <workItem from="1606014090932" duration="13000" />
+      <workItem from="1607810848324" duration="10351000" />
     </task>
     <servers />
   </component>
@@ -110,26 +172,46 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="571" y="328" key="#com.jetbrains.python.refactoring.move.PyMakeFunctionTopLevelDialog/0.0.1536.824@0.0.1536.824" timestamp="1605977916262" />
-    <state width="1493" height="244" key="GridCell.Tab.0.bottom" timestamp="1606006089690">
+    <state x="549" y="170" key="FileChooserDialogImpl" timestamp="1606014102382">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="244" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606006089690" />
-    <state width="1493" height="244" key="GridCell.Tab.0.center" timestamp="1606006089690">
+    <state x="549" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606014102382" />
+    <state width="1493" height="244" key="GridCell.Tab.0.bottom" timestamp="1607824867854">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="244" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606006089690" />
-    <state width="1493" height="244" key="GridCell.Tab.0.left" timestamp="1606006089690">
+    <state width="1493" height="244" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607824867854" />
+    <state width="1493" height="244" key="GridCell.Tab.0.center" timestamp="1607824867853">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="244" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606006089690" />
-    <state width="1493" height="244" key="GridCell.Tab.0.right" timestamp="1606006089690">
+    <state width="1493" height="244" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607824867853" />
+    <state width="1493" height="244" key="GridCell.Tab.0.left" timestamp="1607824867853">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="244" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606006089690" />
-    <state x="477" y="240" key="com.intellij.ide.util.TipDialog" timestamp="1606006182835">
+    <state width="1493" height="244" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607824867853" />
+    <state width="1493" height="244" key="GridCell.Tab.0.right" timestamp="1607824867854">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="477" y="240" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1606006182835" />
+    <state width="1493" height="244" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607824867854" />
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1607812905644">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607812905644" />
+    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1607812905644">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1607812905644" />
+    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1607812905643">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1607812905643" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1607812905644">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1607812905644" />
+    <state x="477" y="240" key="com.intellij.ide.util.TipDialog" timestamp="1606014090873">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="477" y="240" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1606014090873" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1605743410145">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -137,6 +219,13 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/2020Fall_projects$aoe_sim.coverage" NAME="aoe_sim Coverage Results" MODIFIED="1606005949756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/2020Fall_projects$test.coverage" NAME="test Coverage Results" MODIFIED="1605840089414" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2020Fall_projects$Doctest_Foo_double.coverage" NAME="Doctest Foo.double Coverage Results" MODIFIED="1607813611558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2020Fall_projects$Doctest_AoeSimulator_complex_sim.coverage" NAME="Doctest AoeSimulator.complex_sim Coverage Results" MODIFIED="1607823932176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2020Fall_projects$Doctest_AoeSimulator_simple_sim.coverage" NAME="Doctest AoeSimulator.simple_sim Coverage Results" MODIFIED="1607822775254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2020Fall_projects$test.coverage" NAME="test Coverage Results" MODIFIED="1607824675802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2020Fall_projects$Doctest_add.coverage" NAME="Doctest add Coverage Results" MODIFIED="1607813397117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2020Fall_projects$Doctest_AoeSimulator_generate_event_heap.coverage" NAME="Doctest AoeSimulator.generate_event_heap Coverage Results" MODIFIED="1607821841495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2020Fall_projects$Doctest_AoeSimulator_calc_wood_overhead.coverage" NAME="Doctest AoeSimulator.calc_wood_overhead Coverage Results" MODIFIED="1607822978047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2020Fall_projects$Doctest_AoeSimulator_run.coverage" NAME="Doctest AoeSimulator.run Coverage Results" MODIFIED="1607824867839" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
